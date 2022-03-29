@@ -1,2 +1,2 @@
-# new_paper_template
-Template repo to write new papers
+# LSI Rstudio course 2022 Apr 25-26th
+Repository for the course and paper template
