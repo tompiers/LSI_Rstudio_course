@@ -45,10 +45,31 @@ xaringanExtra::use_panelset()
 ---
 #Why do we need open science
 
+* ### Reproducibility crisis
+* ### Only a small fraction of research data is available
+* ### An even smaller fraction of the code is available (physicists are notoriously bad in sharing)
+* ### Open access, if exists, is very expensive and maintains the profit of legacy publishers
+* ### Scholarly literature is antiquated, dysfunctional and rewards hype over quality and integrity
+* ### Scholarly work flows use non-professional, error-prone, closed-source software (MS, Adobe, Prism etc.) that makes sharing, integration, automation and collaboration difficult
+* ### The final product of years of research is often only a single pdf file (1990s) behind a paywall
+* ### Data, code and text are not searchable, reuseable, discoverable, shareable
+
 ---
-##Scientists rename human genes to stop Microsoft Excel from misreading them as dates
+class: center
+#Most data sets collected by scientists are not available
+
+<img src=assets/img/Data_publication_Pyramide.png width=850>
+
+---
+# Most scientists use software developed for accounting
+</br>
+## Scientists rename human genes to stop Microsoft Excel from misreading them as dates
 
 https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-misreading-dates
+
+</br>
+
+<img src=https://media1.tenor.com/images/f6362876996697b6a6f554b2ac3d3013/tenor.gif?itemid=10488408 width=300>
 
 ---
 #Gene name errors are widespread in the scientific literature
@@ -60,6 +81,9 @@ https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-mi
 
 .footnote[___
 [Ziemann et al. (2016)](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7)]
+
+---
+#Code is very often not shared or not shared stably
 
 
 ---
@@ -143,14 +167,13 @@ writeLines(capture.output(rstudioapi::versionInfo()), "code/versionInfo.txt")
 * ### very versatile and extendable data visualisation package
 * ### as input, you need a data.frame or tibble
 
-```{r eval = TRUE, echo = TRUE}
+```{r eval = TRUE, echo = TRUE, fig.height = 4}
 iris %>%  #we use a pipe to input the data to ggplot
   ggplot(aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +  #we use + to add different elements of the plot
   geom_point() +
   geom_smooth() +
   theme_minimal()
 
-head(iris)
 ```
 
 ---
@@ -182,7 +205,7 @@ ggplot(data=diamonds) +
 * ### need to select plot type (geom_...  boxplot, line, points etc.)
 * ### need to define 'theme' such as axis thickness, fonts, ticks, borders etc.
 
-```{r eval = TRUE, echo = TRUE}
+```{r eval = TRUE, echo = TRUE, fig.height = 4}
 iris %>%  
   ggplot(aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_boxplot(notch = TRUE) +
@@ -214,6 +237,11 @@ iris %>%
 
 ```{r eval = TRUE, echo = TRUE}
 getwd()
+```
+
+---
+
+```{r eval = TRUE, echo = TRUE, fig.height = 4}
 iris %>%  
   ggplot(aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_point() +
@@ -278,7 +306,7 @@ tb %>%
 ---
 #A more realistic example
 
-```{r eval = TRUE, echo = TRUE, fig.height=4}
+```{r eval = TRUE, echo = TRUE, fig.height = 3}
 tb <- tibble(genotype = c("wt","wt","wt","mut","mut","mut"), 
              eye_color = c("red", "red", "red", "white", "white", "white"),
              eye_size =  c(35, 39, 33, 12, 14, 11))
@@ -291,7 +319,7 @@ tb %>%
 ---
 #A more realistic example
 
-```{r eval = TRUE, echo = TRUE, fig.height=4}
+```{r eval = TRUE, echo = TRUE, fig.height = 3}
 tb <- tibble(inhibitor = c("DMSO","DMSO","DMSO","drug1","drug1","drug1","drug1","drug1","drug1"), 
              activity = c(32,34,23,67,65,57, 56,64,62),
              replicate =  c("rep1", "rep1", "rep1", "rep1", "rep1", "rep1", "rep2", "rep2", "rep2"))
@@ -309,22 +337,36 @@ Syn_data <- read_csv("data/a-Syn-Data.csv")
 ```
 
 ---
+#Need to do some tidying...
 
-```{r eval = TRUE, echo = TRUE, fig.height = 5}
+* ### Tidying messy data is hard and requires parctice
+* ### Read more here: https://r4ds.had.co.nz/tibbles.html
+
+```{r eval = TRUE, echo = TRUE}
 
 #use piping %>% and pivot_longer to convert into long form
-Syn_data %>%
+Syn_tb <- Syn_data %>%
   rename_with(~ gsub("_", "-", .x, fixed = TRUE)) %>%
   rename_with(~ gsub("...", "_", .x, fixed = TRUE)) %>%
   pivot_longer(matches("aSyn"), 
                names_to = c("condition", "sample"), names_sep = "_",
                values_to = "fluorescence") %>%
-  group_by(condition) %>%
+  group_by(condition)
+
+Syn_tb
+```
+
+---
+#Let's plot the tidied tibble
+
+```{r eval = TRUE, echo = TRUE, fig.height = 5}
+Syn_tb %>%
   ggplot(aes(x = Time, y = fluorescence, color = condition)) +
   geom_smooth() +
   theme_minimal()
 
 ```
+
 ---
 #Assemble multi-panel figures with cowplot and patchwork
 
@@ -338,6 +380,7 @@ img4 <- readPNG("pictures/MC3cover-200um.png")
 
 ```
 <img src="pictures/MC3cover-200um.png" width=22%>
+
 ---
 #Assemble multi-panel figures with cowplot and patchwork
 
@@ -356,6 +399,7 @@ panelA <- cowplot::ggdraw() + cowplot::draw_image(img1, scale = 1) +
              color = "black", size = 9, angle = 0, lineheight = 0.9, alpha = 1)
 
 ```
+
 ---
 .scrollable[
 #Adding scale bars
@@ -371,6 +415,13 @@ panelD <- ggdraw() + draw_image(img4, scale = 1) +
 panelD
 ```
 ]
+
+---
+#Paper writing with Rmarkdown
+
+* ### Open text/Manuscript.Rmd
+
+
 ---
 
 background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
