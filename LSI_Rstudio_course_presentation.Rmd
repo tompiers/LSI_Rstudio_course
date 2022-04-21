@@ -368,6 +368,21 @@ Syn_tb %>%
 ```
 
 ---
+#Example data from Kei
+
+```{r eval = TRUE, echo = TRUE}
+
+Ca <- read_csv("data/WTvsNOS11_cPRC_INNOS.csv")
+Ca
+Ca %>% 
+  ggplot(aes(x = frame, y = intesnsity, color = phenotype)) +
+  geom_smooth() +
+  theme_classic() +
+  facet_wrap(vars(cell))
+
+```
+
+---
 #Assemble multi-panel figures with cowplot and patchwork
 
 ### read the images with readPNG from pictures/ folder
