@@ -14,8 +14,14 @@
 # Output files from R CMD build
 /*.tar.gz
 
+#html and pdf files
+.html
+.pdf
+
 # Output files from R CMD check
 /*.Rcheck/
+#presentation files
+/LSI_Rstudio_course_preentation_files/
 
 # RStudio files
 .Rproj.user/
