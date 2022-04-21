@@ -494,3 +494,92 @@ You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rs
 ]
 
 ---
+# A few notes on managing presentations 
+
+* ### you can use these examples as templates to get started
+* ### put your images to assets/img
+* ### put your videos to assets/movies
+* ### use relative path
+* ### you can reuse the same images and movies for many presentations
+* ### I keep my presentations related to one topic (e.g. science talks, teaching etc.) in one folder and they share the assets and addons
+* ### if you want to save space, you can delete the html and the folder created by xaringan upon knitting (these can easily be recreated from the .Rmd and the assets and addons)
+* ### for videos, best is to use .webm format (you can convert from other formats with ffmpeg) 
+* ### preview slides in the viewer
+* ###  use the Infinite moon reader addon for immediate update of slides
+* ### present in the browser (for me Chrome works best)
+
+---
+class: center
+background-image: url(assets/img/Platy_SEM.png)
+background-position: 10% 58%
+background-size: 70%
+
+## _Platynereis dumerilii_
+
+<img src=assets/img/Platy_adult.png style="position:absolute; width:14%; left:71.2%; top:10.9%">
+
+
+.left[<br><br><br><br><br><br><br><br><br><br><br>
+- breeding .blue[culture], full life-cycle
+- .cyan[embryos] daily, year round 
+- .red[genome] sequence
+- .orange[microinjection]
+- .green[transgenesis]
+- neuron-specific .purple[promoters] and .green[antibodies]
+- .red[knock-out] lines
+- cellular resolution .blue[expression profiling]
+- neuronal .purple[connectome]
+- whole-body neuronal .orange[activity imaging]
+- whole-animal .cyan[pharmacology] by bath application &#x1F60E;]
+
+---
+class: center
+## _Platynereis dumerilii_
+
+.pull-left[#### Day 0
+<video controls  width=65%>
+    <source src=assets/movies/spawning_Fischer.webm>
+</video>
+<br>
+**Spawning**
+<br>
+movie by Albrecht Fischer]
+
+.pull-right[#### Day 1-6
+<video controls  width=100%>
+    <source src=assets/movies/3d_Larvae_swimming.webm>
+</video>
+<br>
+**Synchronously developing larvae**]
+
+---
+class: center
+background-color: white
+## Phototactic turning - maximally sensitive to cyan light
+
+.pull-left[<video controls  width="80%">
+    <source src=assets/movies/light_stimulation_eye.webm>
+</video>]
+
+.pull-right[<img src=assets/img/phototaxis_action.png width="90%">]
+
+.pull-right[<img src=assets/img/spectrum.png width="60%">]
+
+.footnote[___
+[Randel et al. (2014) ](https://elifesciences.org/articles/02730) &emsp; [Gühmann et al. (2015)](https://doi.org/10.1016/j.cub.2015.07.017)]
+
+---
+#How do I write letters with Rmarkdown
+
+* ### if you use linux add to your ~/.bash_aliases file:
+
+* ### alias open='xdg-open'
+
+* ### then add an alias to create a copy of a template letter with the name given and open it in the default progmam for .Rmd (should be Rstudio)
+
+* ### alias letter='newletter(){ cp ~/Correspondence/letter_LSI_template.Rmd ~/Correspondence/$1; open ~/Correspondence/$1; }; newletter'
+
+* ### start editing in Rstudio, and knit into a pdf
+* ### you can add your signature and the LSI header or other logos from an assets folder (/templates in my case)
+
+* ### pull down terminal (1 key) then type 'letter Cover_letter_eLife.Rmd'
