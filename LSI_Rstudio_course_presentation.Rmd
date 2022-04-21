@@ -583,3 +583,8 @@ background-color: white
 * ### you can add your signature and the LSI header or other logos from an assets folder (/templates in my case)
 
 * ### pull down terminal (1 key) then type 'letter Cover_letter_eLife.Rmd'
+
+---
+#Please fill in the feedback form!!
+
+
