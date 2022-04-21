@@ -26,6 +26,9 @@
 # RStudio files
 .Rproj.user/
 
+# participants list
+course_participants.txt
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
