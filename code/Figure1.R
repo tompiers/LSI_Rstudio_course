@@ -4,6 +4,22 @@ source("code/packages_and_functions.R")
 
 # Load and process the data -----------------------------------------------
 
+
+Ca <- read_csv("data/WTvsNOS11_cPRC_INNOS.csv")
+
+Ca %>% 
+  ggplot(aes(x = frame, y = intesnsity, color = phenotype)) +
+  geom_smooth() +
+  theme_classic() +
+  facet_wrap(vars(cell))
+
+#save the plot
+ggsave("pictures/Ca_WT_NOS_Kei.png", 
+       width = 1700, 
+       height = 1400, limitsize = TRUE, 
+       units = c("px"))
+
+
 #read some pre-processed data text/csv file from the /data directory
 syn <- read_csv2("data/head_celltypes_syn_matrix.csv")
 
@@ -68,6 +84,7 @@ img1 <- readPNG("pictures/Platynereis_SEM_inverted_nolabel.png")
 img2 <- readPNG("pictures/head_celltypes_syn_matrix.png")
 img3 <- readPNG("pictures/iris_test.png")
 img4 <- readPNG("pictures/MC3cover-200um.png")
+img5 <- readPNG("pictures/Ca_WT_NOS_Kei.png")
 
 #convert to image panel and add text labels with cowplot::draw_image 
 panelA <- cowplot::ggdraw() + cowplot::draw_image(img1, scale = 1) + 
@@ -100,7 +117,8 @@ panelD <- ggdraw() + draw_image(img4, scale = 1) +
   draw_label("MC3cover neurons", x = 0.45, y = 0.99, fontfamily = "sans", fontface = "plain",
              size = 11, lineheight = 0.9)
 
-
+panelE <- ggdraw() + draw_image(img5)
+  
 #clear the images from memory
 #rm(img1, img2, img3)
 
@@ -115,13 +133,13 @@ panelD <- ggdraw() + draw_image(img4, scale = 1) +
 #their width will be defined later with the widths/heights options
 
 layout <- "
-ABCD
+ABCDE
 "
 
-#same as
+#panels of different sizes
 layout2 <- "
-AABBC
-AABBD
+AABCD
+AABEE
 "
 #you get the picture - you can define any layout and ratios with this representation
 
@@ -130,7 +148,7 @@ AABBD
 #we can also define the relative sizes of rows and columns and the tags to use
 #it is not necessary to enter all the tags e.g., c("A", "B", "C", "D"), patchwork
 #takes care of that if we define the tag_levels only
-Figure1 <- panelA + panelB + panelC + panelD +
+Figure1 <- panelA + panelB + panelC + panelD + panelE +
   patchwork::plot_layout(design = layout, heights = c(1, 1)) + #we can change the heights of the rows in our layout (widths also can be defined)
   patchwork::plot_annotation(tag_levels = "A") &  #we can change this to 'a' for small caps or 'i' or '1'
   ggplot2::theme(plot.tag = element_text(size = 12, face='plain')) #or 'bold', 'italic'
@@ -142,9 +160,9 @@ Figure1 <- panelA + panelB + panelC + panelD +
 #height of the figure properly, so that your panels fit nicely - you may have to try a few times
 
 ggsave("figures/Figure1.pdf", limitsize = FALSE, 
-       units = c("px"), Figure1, width = 3200, height = 800)
+       units = c("px"), Figure1, width = 4000, height = 800)
 ggsave("figures/Figure1.png", limitsize = FALSE, 
-       units = c("px"), Figure1, width = 3200, height = 800, bg = "white")
+       units = c("px"), Figure1, width = 4000, height = 800, bg = "white")
 
 
 
