@@ -21,7 +21,7 @@
 # Output files from R CMD check
 /*.Rcheck/
 #presentation files
-/LSI_Rstudio_course_preentation_files/
+/LSI_Rstudio_course_presentation_files/
 
 # RStudio files
 .Rproj.user/
