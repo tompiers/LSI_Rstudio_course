@@ -40,7 +40,7 @@ You can select a Zotero library, PubMed, CrossRef etc. and insert the citations.
 
 *Platynereis dumerilii* is a marine annelid... [@ozpolat2021]
 
-The references are stored in text/references.bib (defined in the Yaml header). This file will automatically beupdated when you insert a new reference.
+The references are stored in text/references.bib (defined in the Yaml header). This file will be automatically updated when you insert a new reference.
 
 In this documents, references will be formatted in the style of eLife. This is defined in the Yaml header under: csl: elife.csl.
 
