@@ -374,13 +374,42 @@ Syn_tb %>%
 
 Ca <- read_csv("data/WTvsNOS11_cPRC_INNOS.csv")
 Ca
+```
+---
+#Example data from Kei - first let's rename some variables 
+
+```{r eval = TRUE, echo = TRUE}
+
+(Ca <- Ca %>% 
+  rename(genotype = phenotype, intensity = intesnsity)
+ )
+
+```
+
+---
+#Example data from Kei
+
+```{r eval = TRUE, echo = TRUE, fig.height = 5}
+
 Ca %>% 
-  ggplot(aes(x = frame, y = intesnsity, color = phenotype)) +
-  geom_smooth() +
+  ggplot(aes(x = frame, y = intensity, color = genotype, 
+             group = genotype)) +
+  geom_smooth(level = 0.99, size = 0.5, span = 0.1, method = "loess") +
+  geom_line(aes(group = sample), size =  0.5, alpha = 0.1) +
   theme_classic() +
   facet_wrap(vars(cell))
 
 ```
+---
+#Example data from Tom
+
+```{r eval=TRUE, echo=TRUE}
+filo <- read.csv("data/Tom_filopodia_analyses.csv")
+filo
+
+
+```
+
 
 ---
 #Assemble multi-panel figures with cowplot and patchwork
