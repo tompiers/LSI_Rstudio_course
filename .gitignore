@@ -21,13 +21,14 @@
 # Output files from R CMD check
 /*.Rcheck/
 #presentation files
-/LSI_Rstudio_course_presentation_files/
+LSI_Rstudio_course_presentation_files/figure-html/
 
 # RStudio files
 .Rproj.user/
 
 # participants list
 course_participants.txt
+course_schedule.txt
 
 # produced vignettes
 vignettes/*.html
