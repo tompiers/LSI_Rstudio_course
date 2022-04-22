@@ -236,7 +236,8 @@ iris %>%
 * ### useful as a 'cheat-sheet'
 
 ```{r eval = TRUE, echo = TRUE}
-getwd()
+library(esquisse)
+help("esquisse")
 ```
 
 ---
@@ -304,7 +305,7 @@ tb %>%
 ```
 
 ---
-#A more realistic example
+#A more realistic example - 1
 
 ```{r eval = TRUE, echo = TRUE, fig.height = 3}
 tb <- tibble(genotype = c("wt","wt","wt","mut","mut","mut"), 
@@ -317,9 +318,9 @@ tb %>%
 ```
 
 ---
-#A more realistic example
+#A more realistic example - 2
 
-```{r eval = TRUE, echo = TRUE, fig.height = 3}
+```{r eval = TRUE, echo = TRUE, fig.height = 2}
 tb <- tibble(inhibitor = c("DMSO","DMSO","DMSO","drug1","drug1","drug1","drug1","drug1","drug1"), 
              activity = c(32,34,23,67,65,57, 56,64,62),
              replicate =  c("rep1", "rep1", "rep1", "rep1", "rep1", "rep1", "rep2", "rep2", "rep2"))
@@ -334,6 +335,7 @@ tb %>%
 
 ```{r eval = TRUE, echo = TRUE}
 Syn_data <- read_csv("data/a-Syn-Data.csv")
+Syn_data
 ```
 
 ---
@@ -616,4 +618,6 @@ background-color: white
 ---
 #Please fill in the feedback form!!
 
+
+##https://forms.office.com/r/WRwVRVP3pu
 
