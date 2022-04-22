@@ -1,0 +1,226 @@
+---
+title: "Network plotting with Rstudio"
+subtitle: "⚔<br/>presentation powered by xaringan"
+author: "Gaspar Jekely"
+institute: "RStudio course - LSI <br> 25-26th April 2022"
+output:
+  xaringan::moon_reader:
+    css: addons/xaringan-themer-GJ.css
+    nature:
+      ratio: "16:9"
+      beforeInit: ["addons/macros.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: true
+      slideNumberFormat: "%current%"
+      navigation:
+        scroll: true
+---
+
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons"))
+#to load xaringanExtra in a single call
+```
+
+```{r xaringan-editable, echo=FALSE}
+xaringanExtra::use_editable(expires = 1)
+#makes slides editable  to make a component of your slides editable, use the .can-edit[] class.
+
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+#to draw on slides
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+#to add panels to slides with
+#.panel[.panel-name[NAME]
+#...content...
+#]
+```
+
+---
+# Network plotting - Create a matrix
+
+``` {r, eval=TRUE}
+library(tidyverse)
+m <- matrix(c(1,2,3,0,0,3,11,4,0,1,0,3,4,5,6,7), nrow=4)
+m
+```
+--
+``` {r, eval=TRUE}
+rownames(m) <- c('IN1','PRC','IN2','SN1')
+m
+```
+--
+``` {r, eval=TRUE}
+colnames(m) <- c('IN1','PRC','IN2','SN1')
+m
+```
+
+---
+# Convert to tibble
+
+``` {r, eval=TRUE}
+tb <- as.data.frame(m) %>%
+  rownames_to_column(var = "presyn_cell") %>%
+  pivot_longer(-presyn_cell, names_to = "postsyn_cell", values_to = "synapses")
+tb
+```
+
+---
+# Plot with ggplot
+
+``` {r, eval=TRUE, fig.height=6}
+tb %>%
+  ggplot(aes(x=presyn_cell, y=postsyn_cell, size = synapses, color = synapses)) +
+  geom_point() +
+  theme_minimal()
+
+```
+---
+#Mutate
+
+```{r, eval=TRUE}
+tb <- tb %>%
+  group_by(presyn_cell) %>%
+  mutate(synapse_fraction = synapses / sum(synapses, na.rm = TRUE))
+tb
+```
+
+---
+# Plot with ggplot
+
+``` {r, eval=TRUE, fig.height=6}
+tb %>%
+  ggplot(aes(x=presyn_cell, y=postsyn_cell, size = sqrt(synapses), color = synapse_fraction)) +
+  geom_point() +
+  theme_minimal()
+
+```
+ 
+---
+
+```{r eval=TRUE}
+library(igraph)
+library(visNetwork)
+library(tidygraph)
+```
+---
+## convert to VisNetwork via tbl graph (works with all igraph methods)
+
+```{r eval=TRUE}
+g.visn <- tb %>%
+  as_tbl_graph %>%
+  toVisNetworkData()
+
+g.visn 
+
+## we can assign color to nodes
+g.visn$nodes$color <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442")
+```
+
+---
+
+```{r eval=TRUE, fig.height=3}
+visNet <- visNetwork(g.visn$nodes,g.visn$edges)%>% 
+    visIgraphLayout(layout = "layout_nicely", physics = TRUE, randomSeed = 42) %>%
+    visPhysics(solver = "forceAtlas2Based",
+               forceAtlas2Based = list(gravitationalConstant = -400))%>%
+    visEdges(smooth = list(type = 'curvedCW', roundness=0.1),
+             scaling=list(min=2, max=8),
+             color = list(inherit=TRUE, opacity=0.7),
+             arrows = list(to = list(enabled = TRUE, 
+                                     scaleFactor = 1.2, type = 'arrow'))) %>%
+    visNodes(borderWidth=0.3, 
+             color = list(background=g.visn$nodes$color, border='black'),
+             opacity=0.9,
+             shape='dot', 
+             font=list(color='black', size=24),
+             scaling = list(label=list(enabled=TRUE, min=16, max=28))) %>%
+    visOptions(highlightNearest = TRUE) %>%
+    visInteraction(dragNodes = TRUE, dragView = TRUE,
+                   zoomView = TRUE, hover=TRUE,
+                   multiselect=TRUE) %>%
+    addFontAwesome()
+   
+visNet
+```
+
+---
+# Read adjacency matrix
+
+```{r eval=TRUE, fig.height=5}
+adj <- read_csv("assets/data/adjacency_matrix.csv")
+
+```
+
+---
+# Tidy it up
+
+```{r eval=TRUE}
+adj_tb <- adj %>%
+  rename(presyn_cell=Neurons) %>%
+  pivot_longer(-presyn_cell, names_to = "postsyn_cell", values_to = "synapses") 
+adj_tb
+```
+
+---
+# Plot
+
+```{r eval=TRUE, fig.height=5}
+adj_tb %>%
+  ggplot(aes(x=presyn_cell, y=postsyn_cell, size = sqrt(synapses), color = synapses)) +
+  geom_point() +
+  theme_minimal()
+
+```
+
+---
+# Convert to network with tidygraph package (gives an iGraph object), then tp VisNetwork
+
+```{r eval=TRUE}
+library(tidygraph)
+
+g.visn <- adj_tb %>%
+  as_tbl_graph %>%
+  toVisNetworkData()
+```
+
+## define edge weights as 'values' 
+```{r eval=TRUE}
+
+g.visn$edges$value <- g.visn$edges$synapses
+```
+---
+# visNetwork plot
+```{r eval=TRUE}
+visNet <- visNetwork(g.visn$nodes,g.visn$edges)%>% 
+    visIgraphLayout(layout = "layout_nicely", physics = TRUE, randomSeed = 42) %>%
+  visPhysics(solver = "forceAtlas2Based",
+               forceAtlas2Based = list(gravitationalConstant = -400))%>%
+    visEdges(smooth = list(type = 'curvedCW', roundness=0.1),
+             scaling=list(min=2, max=8),
+             color = list(inherit=TRUE, opacity=0.7),
+             arrows = list(to = list(enabled = TRUE, 
+                                     scaleFactor = 1.2, type = 'arrow'))) %>%
+    visNodes(borderWidth=0.3, 
+             color = list(background=g.visn$nodes$color, border='black'),
+             opacity=0.9,
+             shape='dot', 
+             font=list(color='black', size=24),
+             scaling = list(label=list(enabled=TRUE, min=16, max=28))) %>%
+    addFontAwesome()
+
+```
+
+---
+# show graph
+```{r eval=TRUE}
+visNet
+```
+
+---

@@ -25,6 +25,9 @@ figures/*.png
 #presentation files
 LSI_Rstudio_course_presentation_files/figure-html/
 
+#Network plotting presentation
+Network_plotting*
+
 # RStudio files
 .Rproj.user/
 
