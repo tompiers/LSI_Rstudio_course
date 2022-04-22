@@ -54,6 +54,13 @@ You can add your figures into the rendered document (to define the path, go up o
 
 ![Figure 1](../figures/Figure1.png){width="80%"}
 
+Insert a table with the simple knitr::kable table generator:
+
+```{r, echo=FALSE}
+knitr::kable(head(iris), format = 'simple', align = 'l', 
+             caption = "Table 1: Summary of iris data")
+```
+
 Equations can also be inserted, Insert -\> Display Math:
 
 $$
@@ -64,7 +71,7 @@ $$
 
 ## Acknowledgements
 
-We would like to thank the Jekely lab for the R project template (<https://github.com/JekelyLab/new_paper_template>) we used to write this paper. This work was funded by ...
+We would like to thank Gaspar Jekely for the R project template (<https://github.com/JekelyLab/new_paper_template>) we used to write this paper. This work was funded by ...
 
 ## References {.unnumbered}
 
