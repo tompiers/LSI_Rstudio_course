@@ -15,8 +15,10 @@
 /*.tar.gz
 
 #html and pdf files
-.html
-.pdf
+*.html
+*.pdf
+pictures/*.png
+figures/*.png
 
 # Output files from R CMD check
 /*.Rcheck/
