@@ -367,6 +367,7 @@ Syn_tb %>%
   geom_smooth() +
   theme_minimal()
 
+ggsave("pictures/synuclein_data.png", bg = "white")
 ```
 
 ---
@@ -401,15 +402,51 @@ Ca %>%
   theme_classic() +
   facet_wrap(vars(cell))
 
+ggsave("pictures/Kei_NOS_data.png", bg = "white")
 ```
+
 ---
-#Example data from Tom
+#Example data from Tom - not raw data
 
 ```{r eval=TRUE, echo=TRUE}
-filo <- read.csv("data/Tom_filopodia_analyses.csv")
+filo <- read_csv("data/Tom_filopodia_analyses.csv")
 filo
+```
+---
+#Example data from Tom - raw data
 
+```{r eval=TRUE, echo=TRUE}
+filo_raw <- read_csv("data/spine activity_raw.csv")
+filo_raw
+```
+---
+#Example data from Tom - let's tidy it up
 
+```{r eval=TRUE, echo=TRUE}
+
+filo_raw_tb_int <- filo_raw %>%
+  rename_with(~ gsub("SR_R", "SR-R", .x, fixed = TRUE)) %>%
+  rename_with(~ gsub("_Area!!", "-Area!!", .x, fixed = TRUE)) %>%
+  rename_with(~ gsub("Time::Relative Time!!R", "time", .x, fixed = TRUE)) %>%
+  rename_with(~ gsub("_IntensityMean!!", "-IntensityMean!!", .x, fixed = TRUE)) %>%
+  pivot_longer(matches("Channel"), 
+               names_to = c("channel", "region", "measurement"), 
+               names_sep = "_|::",
+               values_to = "value") %>%
+  filter(measurement == 'IntensityMean')
+filo_raw_tb_int
+```
+
+---
+#Let's plot the tidied tibble
+
+```{r eval = TRUE, echo = TRUE, fig.height = 5}
+filo_raw_tb_int %>%
+  ggplot(aes(x = time, y = value, color = region)) +
+  geom_line(aes(group = region)) +
+  theme_minimal()
+
+ggsave("pictures/Tom_filo_data.png", bg = "white")
 ```
 
 
@@ -420,10 +457,10 @@ filo
 
 ``` {r echo = TRUE, eval = TRUE}
 img1 <- readPNG("pictures/Platynereis_SEM_inverted_nolabel.png")
-img2 <- readPNG("pictures/head_celltypes_syn_matrix.png")
-img3 <- readPNG("pictures/iris_test.png")
-img4 <- readPNG("pictures/MC3cover-200um.png")
-
+img2 <- readPNG("pictures/synuclein_data.png")
+img3 <- readPNG("pictures/Kei_NOS_data.png")
+img4 <- readPNG("pictures/Tom_filo_data.png")
+img5 <- readPNG("pictures/MC3cover-200um.png")
 ```
 <img src="pictures/MC3cover-200um.png" width=22%>
 
@@ -432,7 +469,7 @@ img4 <- readPNG("pictures/MC3cover-200um.png")
 
 ### convert to image panel and add text labels with cowplot::draw_image and draw_label
 
-``` {r echo = TRUE, eval = TRUE}
+``` {r echo = TRUE, eval = TRUE, fig.height = 4}
  
 panelA <- cowplot::ggdraw() + cowplot::draw_image(img1, scale = 1) + 
   draw_label("Platynereis larva", x = 0.35, y = 0.99, fontfamily = "sans", fontface = "plain",
@@ -443,9 +480,23 @@ panelA <- cowplot::ggdraw() + cowplot::draw_image(img1, scale = 1) +
              color = "black", size = 9, angle = 0, lineheight = 0.9, alpha = 1) + 
   draw_label("sg0", x = 0.52, y = 0.67, fontfamily = "sans", fontface = "plain",
              color = "black", size = 9, angle = 0, lineheight = 0.9, alpha = 1)
+panelA
 
 ```
+---
+.scrollable[
+#Make panels B-D
+``` {r echo = TRUE, eval = TRUE}
 
+panelB <- ggdraw() + draw_image(img2)
+panelC <- ggdraw() + draw_image(img3)
+panelD <- ggdraw() + draw_image(img4)
+panelB
+panelC
+panelD
+
+```
+]
 ---
 .scrollable[
 #Adding scale bars
@@ -456,16 +507,63 @@ panelA <- cowplot::ggdraw() + cowplot::draw_image(img1, scale = 1) +
 * ### if you know the width of the image (can add it to file name), it is easy to calculate the size of the scale bar
 
 ``` {r echo = TRUE, eval = TRUE}
-panelD <- ggdraw() + draw_image(img4, scale = 1) + 
+panelE <- ggdraw() + draw_image(img5, scale = 1) + 
   draw_line(x = c(0.1, 0.3), y = c(0.07, 0.07), color = "black", size = 0.5)
-panelD
+panelE
 ```
 ]
 
 ---
-#Paper writing with Rmarkdown
+#Assemble figure with patchwork
 
-* ### Open text/Manuscript.Rmd
+* ### First, we define the layout with textual representation (cool and intuitive!)
+
+```{r eval=TRUE, echo=TRUE}
+layout <- "ABCDE"
+Figure1 <- panelA + panelB + panelC + panelD + panelE +
+  patchwork::plot_layout(design = layout, heights = c(1, 1)) +
+  patchwork::plot_annotation(tag_levels = "A") &
+  ggplot2::theme(plot.tag = element_text(size = 12, face='plain'))
+
+ggsave("figures/Figure1.png", limitsize = FALSE, 
+       units = c("px"), Figure1, width = 4000, height = 800, bg = "white")
+
+```
+
+<img src=figures/Figure1.png width=100%>
+
+---
+#Change the layout of the panels
+
+* ### Change the textual layout definition
+* ### We also need to change the dimensions of the exported figure
+
+```{r eval=TRUE, echo=TRUE}
+layout <- 
+"AABC
+ AADE"
+Figure1 <- panelA + panelB + panelC + panelD + panelE +
+  patchwork::plot_layout(design = layout, heights = c(1, 1)) +
+  patchwork::plot_annotation(tag_levels = "a") &
+  ggplot2::theme(plot.tag = element_text(size = 12, face='bold'))
+
+ggsave("figures/Figure1_layout2.png", limitsize = FALSE, 
+       units = c("px"), Figure1, width = 3200, height = 1600, bg = "white")
+
+```
+
+<img src=figures/Figure1_layout2.png width=47%>
+
+---
+#Paper writing in Rmarkdown
+
+* ### Powerful and versatile text editing in Markdown
+* ### Easy insertion and formatting of references
+* ### Supports equations, tables
+* ### Directly insert your figures generated by your code
+* ### Can 'knit' into html, pdf or doc formats
+<br>
+ ### -> Open text/Manuscript.Rmd
 
 
 ---
