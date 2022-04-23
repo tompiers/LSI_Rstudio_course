@@ -85,6 +85,42 @@ https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-mi
 ---
 #Code is very often not shared or not shared stably
 
+<br><br><br><br><br><br><br><br><br><br>
+* ### *We assess the effectiveness of such a policy by (i) requesting data and code from authors and (ii) attempting replication of the published findings. We chose a random sample of 204 scientific papers published in the journal Science []. We found that we were able to obtain artifacts from 44% of our sample and were able to reproduce the findings for 26%.*
+
+* .red[*"When you approach a PI for the source codes and raw data, you better explain who you are, whom you work for, why you need the data and what you are going to do with it."*]
+
+* .green[*"I have to say that this is a very unusual request without any explanation! Please ask your supervisor to send me an email with a detailed, and I mean detailed, explanation."*]
+
+* .orange[*"The data files remains our property and are not deposited for free access. Please, let me know the purpose you want to get the file and we will see how we can help you."*]
+
+* .purple[*"We do not typically share our internal data or code with people outside our collaboration."*]
+
+* ### .red[sigh...]
+
+<img src=assets/img/Stodden_PNAS.png style="position:absolute; width:44%; left:5%; top:15%">
+
+
+.footnote[___
+[Stodden et al. (2018) ](https://doi.org/10.1073/pnas.1708290115)]
+
+---
+#What this course is about: what you can do to be open
+
+* ### tools and approaches for transparent and open publishing
+* ### a paper is not only text and figures, but also data and code
+* ### all should be shared for reproducibility and openness
+* ### otherwise it is not published (physicists, take note!)
+* ### we will use Rstudio to learn a comprehensive paper-writing pipeline
+* ### code, tabulated data, figures, text, references, supplements all in one place
+* ### collaborative working and sharing via github (or other public repository)
+* ### the figures are linked to their underlying data and code to generate them
+* ### efficient version control
+* ### faster, more transparent and reproducible workflow
+* ### no software license is needed (no MS, no Adobe, no Matlab)
+* ### once you master the approach I advocate, you don't want to go back...
+
+<img src=assets/img/Wormie.jpg style="position:absolute; width:38%; left:61.2%; top:26.9%">
 
 ---
 class: left
@@ -98,23 +134,26 @@ install.packages("tidyverse")
 
 
 * ### then load the package
-* ### open the R script code/Course_exercises.R with the example code
 ```{r eval=TRUE, tidy=FALSE}
 library(tidyverse)
 library(xaringan)
+```
+* ### open the R script code/Course_exercises.R with the example code
 
-#you can source several packages and functions, listed in one file
+* ### you can source several packages and functions, listed in one file
+```{r eval=TRUE, tidy=FALSE, fig.height=5}
 source("code/packages_and_functions.R")
 ```
 
 ---
-class: center
+class: left
 
 # Your workspace in R
 
-*Recreate, rather than save workspace, save your code and data, not workspace <br>
+* ### Recreate, rather than save workspace, save your code and data, not workspace 
+<br>
 
-<img src=assets/img/rstudio-workspace.png width=60%>
+<img src=assets/img/rstudio-workspace.png width=55%>
 
 ---
 #A note about working directories
@@ -624,11 +663,11 @@ You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rs
 ]
 
 ---
+.can-edit[
 # A few notes on managing presentations 
 
 * ### you can use these examples as templates to get started
-* ### put your images to assets/img
-* ### put your videos to assets/movies
+* ### put your images to assets/img, your videos to assets/movies
 * ### use relative path
 * ### you can reuse the same images and movies for many presentations
 * ### I keep my presentations related to one topic (e.g. science talks, teaching etc.) in one folder and they share the assets and addons
@@ -637,6 +676,9 @@ You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rs
 * ### preview slides in the viewer
 * ###  use the Infinite moon reader addon for immediate update of slides
 * ### present in the browser (for me Chrome works best)
+* ### you can make editable slides (\.can-edit[...])
+]
+* ### xaringanExtra for extra functions https://pkg.garrickadenbuie.com/xaringanExtra/#/README?id=xaringanextra
 
 ---
 class: center
