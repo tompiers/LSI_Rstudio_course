@@ -595,6 +595,34 @@ ggsave("figures/Figure1_layout2.png", limitsize = FALSE,
 <img src=figures/Figure1_layout2.png width=47%>
 
 ---
+#Collaborative code and paper writing with Rstudio and GitHub
+
+* ### GitHub www.github.com is a platform for software development and version control
+* ### owned by Microsoft since 2018
+* ### developers can have public and private repositories
+* ### can share repositories privately with collaborators
+* ### integrates well with Rstudio
+
+
+<img src=assets/img/original.png style="position:absolute; width:11%; left:85%; top:15%">
+
+---
+#The workflow
+
+* ### Create a new project or clone a template project on GitHub
+* ### In Rstudio, New Project -> Version control -> add GitHub repo URL and save locally
+* ### Change the code
+* ### You can 'commit' and then 'push' changes to GitHub
+* ### Your collaborators can be added on GitHub
+* ### Collaborators can 'pull' to their own computer and 'push' their own changes
+* ### If two developers push changes to the same repo, this can lead to conflict
+* ### This can be managed by starting new 'branches'
+* ### Branches can be 'merged' to the original 'master' branch
+* ### A collaborator can issue a 'pull request' to merge their branch to the master
+
+<img src=assets/img/original.png style="position:absolute; width:11%; left:85%; top:15%">
+
+---
 #Paper writing in Rmarkdown
 
 * ### Powerful and versatile text editing in Markdown
