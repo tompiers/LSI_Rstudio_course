@@ -97,7 +97,8 @@ install.packages("tidyverse")
 ```
 
 
-* then load the package
+* ### then load the package
+* ### open the R script code/Course_excercises.R with the example code
 ```{r eval=TRUE, tidy=FALSE}
 library(tidyverse)
 library(xaringan)
