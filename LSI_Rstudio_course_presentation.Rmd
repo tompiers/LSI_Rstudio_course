@@ -741,7 +741,7 @@ You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rs
 * ### you can reuse the same images and movies for many presentations
 * ### I keep my presentations related to one topic (e.g. science talks, teaching etc.) in one folder and they share the assets and addons
 * ### if you want to save space, you can delete the html and the folder created by xaringan upon knitting (these can easily be recreated from the .Rmd and the assets and addons)
-* ### for videos, best is to use .webm format (you can convert from other formats with ffmpeg) 
+* ### for videos, best is to use .webm format (you can convert from other formats with ffmpeg) (ffmpeg -i input.mp4 -f webm output.webm)
 * ### preview slides in the viewer
 * ###  use the Infinite moon reader addon for immediate update of slides
 * ### present in the browser (for me Chrome works best)
