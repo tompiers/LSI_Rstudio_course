@@ -103,6 +103,7 @@ https://www.theverge.com/2020/8/6/21355674/human-genes-rename-microsoft-excel-mi
 .footnote[___
 [Stodden et al. (2018) ](https://doi.org/10.1073/pnas.1708290115)]
 
+
 ---
 #What this course is about: what you can do to be open
 
