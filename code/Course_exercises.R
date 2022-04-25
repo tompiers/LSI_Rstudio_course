@@ -1,6 +1,3 @@
-library(tidyverse)
-
-
 # sourse some packages and functions --------------------------------------
 
 # you can use Ctr+Shift+R to insert new code section - these show up in the toc
@@ -57,14 +54,16 @@ iris %>%
   facet_wrap(vars(Species))
 
 #try the Esquisse 'ggplot2 builder' add-on
+install.packages("esquisse")
 library(esquisse)
 help("esquisse")
+
 
 
 # modify legends ----------------------------------------------------------
 
 #another plot - changing the legends
-iris %>%  
+iris_plot <- iris %>%  
   ggplot(aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_point() +
   theme_minimal() +
@@ -73,9 +72,10 @@ iris %>%
   theme_minimal() +
   theme(legend.position = "left")
 
-#saving a plot
-ggsave("pictures/iris_test.png", bg = "white")
 
+#saving a plot
+ggsave("pictures/iris_test.png", bg = "white",
+       width = 1000, height = 1000, units = "px")
 
 # Tibbles - tidy your data ------------------------------------------------
 
@@ -264,3 +264,101 @@ Figure1 <- panelA + panelB + panelC + panelD + panelE +
 
 ggsave("figures/Figure1_layout2.png", limitsize = FALSE, 
        units = c("px"), Figure1, width = 3200, height = 1600, bg = "white")
+
+#figure rearrangment practice
+layout <- 
+  "AB
+   AC
+   DE"
+
+Figure1 <- panelA + panelB + panelC + panelD + panelE +
+  patchwork::plot_layout(design = layout, heights = c(1, 1, 1), widths = c(1, 1)) +
+  patchwork::plot_annotation(tag_levels = "A") &
+  ggplot2::theme(plot.tag = element_text(size = 14, face='bold'))
+
+ggsave("figures/Figure1_layout3.png", limitsize = FALSE, 
+       units = c("px"), Figure1, width = 2400, height = 1600, bg = "white")
+
+# Kei's data - facet by both cell and genotype
+Ca %>% 
+  ggplot(aes(x = frame, y = intensity, color = genotype, 
+             group = genotype)) +
+  geom_smooth(level = 0.99, size = 0.5, span = 0.1, method = "loess") +
+  geom_line(aes(group = sample), size =  0.5, alpha = 0.1) +
+  theme_classic() +
+  facet_wrap(vars(cell, genotype))
+  
+# Change line colours
+Ca %>% 
+  ggplot(aes(x = frame, y = intensity, color = genotype, 
+             group = genotype)) +
+  geom_smooth(level = 0.99, size = 0.5, span = 0.1, method = "loess") +
+  geom_line(aes(group = sample), size =  0.5, alpha = 0.1) +
+  scale_color_manual(values=c('Green','Yellow')) +
+  theme_classic()
+  facet_wrap(vars(cell, genotype))
+
+  ggsave("pictures/Kei_NOS_datav3.png", bg = "white", width = 1000, height = 1000, units = "px")
+
+#Change font size on x axis
+  Ca %>% 
+    ggplot(aes(x = frame, y = intensity, color = genotype, 
+               group = genotype)) +
+    geom_smooth(level = 0.99, size = 0.5, span = 0.1, method = "loess") +
+    geom_line(aes(group = sample), size =  0.5, alpha = 0.1) +
+    scale_color_manual(values=c('Green','Yellow')) +
+    theme_classic() +
+    theme(axis.text.x = element_text(size = 20)) +
+    facet_wrap(vars(cell, genotype))
+    
+    ggsave("pictures/Kei_NOS_datav4.png", bg = "white", width = 1000, height = 1000, units = "px")
+    
+#Change axis label to bold
+    Ca %>% 
+      ggplot(aes(x = frame, y = intensity, color = genotype, 
+                 group = genotype)) +
+      geom_smooth(level = 0.99, size = 0.5, span = 0.1, method = "loess") +
+      geom_line(aes(group = sample), size =  0.5, alpha = 0.1) +
+      scale_color_manual(values=c('Green','Yellow')) +
+      theme_classic() +
+      theme(axis.text.x = element_text(size = 20), axis.title = element_text(face = "bold")) +
+      facet_wrap(vars(cell, genotype))
+    
+    ggsave("pictures/Kei_NOS_datav5.png", bg = "white", width = 1000, height = 1000, units = "px")
+    
+#Kei's data as a Boxplot
+    Ca %>% 
+      ggplot(aes(x = frame, y = intensity, color = genotype, group = genotype)) +
+      geom_boxplot(notch = TRUE) +
+      scale_color_manual(values=c('Green','Yellow')) +
+      theme_classic() +
+      theme(axis.text.x = element_text(size = 20), axis.title = element_text(face = "bold")) +
+      facet_wrap(vars(cell, genotype))
+    
+    ggsave("pictures/Kei_NOS_datav6.png", bg = "white", width = 1000, height = 1000, units = "px")
+    
+#Add lines to the smooth curve of Binali's data
+      Syn_tb
+   
+      Syn_tb %>%
+      ggplot(aes(x = Time, y = fluorescence, color = condition, group = condition)) +
+      geom_smooth(level = 0.99, size = 0.5, span = 0.1, method = "loess") +
+      geom_line(aes(group = sample), size =  0.5, alpha = 0.1) +
+      theme_classic()
+    
+      ggsave("pictures/synuclein_datav2.png", bg = "white", width = 1000, height = 1000, units = "px")
+      
+
+#Facet Binali's data based on condition
+      Syn_tb
+      
+      Syn_tb %>%
+        ggplot(aes(x = Time, y = fluorescence, color = condition, group = condition)) +
+        geom_smooth(level = 0.99, size = 0.5, span = 0.1, method = "loess") +
+        geom_line(aes(group = sample), size =  0.5, alpha = 0.1) +
+        theme_classic() +
+        facet_wrap(vars(condition))
+      
+      ggsave("pictures/synuclein_datav3.png", bg = "white", width = 1000, height = 1000, units = "px")
+      
+    
