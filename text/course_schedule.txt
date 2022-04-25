@@ -7,9 +7,10 @@ LSI Seminar rooms
 10:30 - 11:00 - directory structure, Rprojects, cloning from github
 11:00 - 12:30 - data plotting with ggplot
 12:30 - 13:00 lunch (sandwiches provided by LSI)
-13:00 - 15:00 - data import and tidying
-15:00 - 15:20 coffee 
-15:20 - 17:00 figure assembly with cowplot and patchwork
+13:00 - 14:40 - data import and tidying
+14:40-15:00 practice
+15:00 - 15:45 coffee/discussion/practice 
+15:45 - 17:00 figure assembly with cowplot and patchwork
 17:00 - 18:00 practice
 
 26 April
